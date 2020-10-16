@@ -10,6 +10,28 @@ class Account {
 	private $account_password;
 	private $is_admin;
 
+	public function login() {
+
+		try {
+			$conn = Connection::getConn();
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = "SELECT * FROM accounts WHERE email=:email";
+			$stmt = $conn->prepare($sql);
+			$stmt->bindValue(':email', $this->email);
+			$stmt->execute();
+
+			if ($stmt->rowCount()) {
+				$result = $stmt->fetch();
+				return $result;
+			}
+
+			throw new \Exception('Email not found. Please, verify if your e-mail is correct.');
+		
+		} catch(PDOException $e) {
+			echo 'Error: ' . $e->getMessage();
+		}
+	}
+
 	public function createAccount() {
 		try {
 			$conn = Connection::getConn();
@@ -33,6 +55,10 @@ class Account {
 
 	public function getEmail() {
 		return $this->email;
+	}
+
+	public function getAccountPassword() {
+		return $this->account_password;
 	}
 
 	public function getIsAdmin() {

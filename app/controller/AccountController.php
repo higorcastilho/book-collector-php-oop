@@ -15,6 +15,28 @@ class AccountController {
 		return $registerView->index();
 	}
 
+	public function login() {
+		try {
+			$account = new Account();
+			$account->setEmail($_POST['email']);
+			$account->setAccountPassword($_POST['password']);
+			$result = $account->login();
+
+			if ($result['account_password'] === $account->getAccountPassword()) {
+				$_SESSION['usr'] = array('id_user' => $result['id'], 'name_user' => $result['name']);
+				
+				header('Location: http://localhost/book-collector-php-oop/dashboard/dashboardPage');
+				return true;
+			}
+
+			throw new \Exception('Invalid Login.');
+
+		} catch(\Exception $e) {
+			$_SESSION['msg_error'] = array('msg' => $e->getMessage(), 'count' => 0);
+			header('Location: http://localhost/book-collector-php-oop/account/loginPage');
+		}
+	}
+
 	public function register() {
 		try {
 			$pass = $_POST['password'];
