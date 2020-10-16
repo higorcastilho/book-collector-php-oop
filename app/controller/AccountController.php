@@ -1,8 +1,14 @@
 <?php
 
 use  app\view\pages\register\RegisterView;
+use  app\view\pages\login\LoginView;
 
 class AccountController {
+
+	public function loginPage() {
+		$loginView = new LoginView();
+		return $loginView->index();
+	}
 
 	public function registerPage() {
 		$registerView = new RegisterView();

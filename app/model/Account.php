@@ -13,7 +13,6 @@ class Account {
 	public function createAccount() {
 		try {
 			$conn = Connection::getConn();
-			var_dump($conn);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$sql = "INSERT INTO accounts (name, email, account_password) VALUES (:name, :email, :account_password)";
 			$stmt = $conn->prepare($sql);
