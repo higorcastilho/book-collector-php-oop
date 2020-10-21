@@ -8,9 +8,20 @@
 		private $params = array();
 
 		private $user;
+		private $error;
 
 		public function __construct() {
 			$this->user = $_SESSION['usr'] ?? null;
+
+			$this->error = $_SESSION['msg_error'] ?? null;
+
+			if (isset($this->error)) {
+				if ($this->error['count'] === 0) {
+					$_SESSION['msg_error']['count']++;
+				} else {
+					unset($_SESSION['msg_error']);
+				}
+			}
 		}
 
 		public function start($request) {
@@ -31,11 +42,34 @@
 				}
 			}
 
-			if (!isset($this->controller)) {
-				$this->controller = 'LoginController';
-				$this->method = 'index';
+			if ($this->user) {
+				$pg_permission = ['DashboardController'];
+
+				if (!isset($this->controller) || !in_array($this->controller, $pg_permission)) {
+					$this->controller = 'DashboardController';
+					$this->method = 'dashboardPage';
+				}
+			} else {
+				$pg_permission = ['AccountController'];
+
+				if (!isset($this->controller) || !in_array($this->controller, $pg_permission)) {
+					$this->controller = 'AccountController';
+					$this->method = 'loginPage';
+				}
 			}
 
 			return call_user_func(array(new $this->controller, $this->method), $this->params);
 		}
 	}
+
+
+
+
+
+
+
+
+
+
+
+

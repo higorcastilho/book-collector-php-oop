@@ -6,13 +6,16 @@ use  app\view\pages\login\LoginView;
 class AccountController {
 
 	public function loginPage() {
-		$loginView = new LoginView();
-		return $loginView->index();
+
+		$content['msg_error'] = $_SESSION['msg_error'] ?? null;
+		$loginView = new LoginView($content);
+		return $loginView->renderWithContent('login');
 	}
 
 	public function registerPage() {
-		$registerView = new RegisterView();
-		return $registerView->index();
+		$content['msg_error'] = $_SESSION['msg_error'] ?? null;
+		$registerView = new RegisterView($content);
+		return $registerView->renderWithContent('register');
 	}
 
 	public function login() {
@@ -24,7 +27,7 @@ class AccountController {
 
 			if ($result['account_password'] === $account->getAccountPassword()) {
 				$_SESSION['usr'] = array('id_user' => $result['id'], 'name_user' => $result['name']);
-				
+					
 				header('Location: http://localhost/book-collector-php-oop/dashboard/dashboardPage');
 				return true;
 			}
@@ -43,7 +46,6 @@ class AccountController {
 			$passConfirm = $_POST['passwordConfirm'];
 			if ($pass != $passConfirm) {
 				throw new \Exception("Passwords don't match. Please, try again.");
-				header('Location: http://localhost/book-collector-php-oop/register-view/index');
 			} 
 
 			$account = new Account();
@@ -55,7 +57,7 @@ class AccountController {
 			header('Location: http://localhost/book-collector-php-oop/index.php');
 		} catch (\Exception $e) {
 			$_SESSION['msg_error'] = array('msg' => $e->getMessage(), 'count' => 0);
-			header('Location: http://localhost/book-collector-php-oop/register-view-index');
+			header('Location: http://localhost/book-collector-php-oop/account/registerPage');
 		}
 	}
 }

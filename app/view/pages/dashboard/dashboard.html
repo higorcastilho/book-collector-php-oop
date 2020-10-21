@@ -6,8 +6,16 @@
 </head>
 <body>
 	<h1>Dashboard</h1>
-	<p>Olá, {{name_user}}. Seja bem-vindx</p>
+	<p style="display: inline-block">Olá, {{name_user}}. Seja bem-vindx. </p>
+	<a href="http://localhost/book-collector-php-oop/dashboard/logout/{{session_id}}">Logout</a> 
+	<h2>Estes são os seus livros</h2>
+	<button style="display: block"><a href="http://localhost/book-collector-php-oop/dashboard/addBookPage">Adicionar um livro</a></button>
+	<!--{{books[0]['title']}}-->
+	<ul>
+		{% for book in books %}
+			<li>{{book.title}} - {{book.author}}</li>
+		{% endfor %}
+	</ul>
 
-	<button><a href="http://localhost/book-collector-php-oop/dashboard/addBookPage">Adicionar um livro</a></button>
 </body>
 </html>		

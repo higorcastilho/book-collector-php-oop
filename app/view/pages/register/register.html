@@ -22,6 +22,9 @@
 		<input id="passwordConfirm" name="passwordConfirm"/>
 
 		<button>Register</button>
+		{% if msg_error %}
+			{{msg_error['msg']}}
+		{% endif %}
 	</form>
 </body>
 </html>		

@@ -14,6 +14,9 @@
 		<input id="password" name="password"/>
 
 		<button>Log in</button>
+		{% if msg_error %}
+			<span>{{msg_error['msg']}}</span>
+		{% endif %}
 	</form>
 	<a href="http://localhost/book-collector-php-oop/account/registerPage">Sign Up</a>
 </body>
